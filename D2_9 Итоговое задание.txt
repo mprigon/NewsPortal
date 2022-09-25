@@ -1,0 +1,102 @@
+from app1.models import *
+
+u1 = User.objects.create_user(username='Peter')
+u2 = User.objects.create_user(username='Mariya')
+Author.objects.create(authorUser=u1)
+Author.objects.create(authorUser=u2)
+Category.objects.create(name='IT')
+Category.objects.create(name='Кино')
+Category.objects.create(name='Театр')
+Category.objects.create(name='Книги')
+Category.objects.create(name='Образование')
+Category.objects.create(name='Спорт и физкультура')
+Category.objects.create(name='Отдых и развлечения')
+
+Post.objects.create(author=Author.objects.get(id=1), postType='AR', title='Python reference', text='Python reference in English can be accessed via Internet. Open homepage and look through navigation panels.')
+Post.objects.create(author=Author.objects.get(id=2), postType='AR', title='My favourite bicycle', text='I want to ride my bicycle, I want to ride my bike, - as Freddy Mercury sang. Riding in the suburbs of Saint-Petersburg, where the traffic is low may become a real rest from everyday noise and stress.')
+Post.objects.create(author=Author.objects.get(id=2), postType='NW', title='Django 4.1.1 release', text='The latest official version of Django is 4.1.1 available for download from the official Internet site. You can look through the new features by watching Django on GitHub.')
+
+Post.objects.get(id=1).title
+Post.objects.get(id=2).title
+Post.objects.get(id=3).title
+
+Post.objects.get(id=1).postCategory.add(Category.objects.get(id=1))
+Post.objects.get(id=1).postCategory.add(Category.objects.get(id=5))
+Post.objects.get(id=2).postCategory.add(Category.objects.get(id=6))
+Post.objects.get(id=2).postCategory.add(Category.objects.get(id=7))
+Post.objects.get(id=3).postCategory.add(Category.objects.get(id=1))
+Post.objects.get(id=3).postCategory.add(Category.objects.get(id=5))
+
+Comment.objects.create(commentPost=Post.objects.get(id=1), commentUser=Author.objects.get(id=2).authorUser, text='Интересный обзор работы приложений на Python, заслуживает внимательного изучения.')
+Comment.objects.create(commentPost=Post.objects.get(id=2), commentUser=Author.objects.get(id=1).authorUser, text='Интересные маршруты')
+Comment.objects.create(commentPost=Post.objects.get(id=1), commentUser=Author.objects.get(id=1).authorUser, text='Надеюсь, что текст понятный и не заумный.')
+Comment.objects.create(commentPost=Post.objects.get(id=2), commentUser=Author.objects.get(id=2).authorUser, text='Мы катаемся по субботам, можете присоединиться')
+Comment.objects.create(commentPost=Post.objects.get(id=3), commentUser=Author.objects.get(id=1).authorUser, text='А мне пока хватает предыдущей версии')
+Comment.objects.create(commentPost=Post.objects.get(id=3), commentUser=Author.objects.get(id=2).authorUser, text='Я установила, и пока работает стабильно')
+
+
+Post.objects.get(id=1).like()
+Post.objects.get(id=1).like()
+Post.objects.get(id=1).like()
+
+Post.objects.get(id=2).like()
+Post.objects.get(id=2).like()
+Post.objects.get(id=2).like()
+Post.objects.get(id=2).like()
+
+Post.objects.get(id=1).dislike()
+Post.objects.get(id=1).dislike()
+
+Post.objects.get(id=2).dislike()
+Post.objects.get(id=2).dislike()
+Post.objects.get(id=2).dislike()
+Post.objects.get(id=2).dislike()
+
+Post.objects.get(id=3).like()
+Post.objects.get(id=3).like()
+Post.objects.get(id=3).like()
+
+Comment.objects.get(id=1).like()
+Comment.objects.get(id=2).like()
+Comment.objects.get(id=3).like()
+Comment.objects.get(id=4).dislike()
+Comment.objects.get(id=5).like()
+Comment.objects.get(id=6).dislike()
+
+Author.objects.get(id=1).ratingAuthor
+Author.objects.get(id=2).ratingAuthor
+
+Post.objects.get(id=2).like()
+Post.objects.get(id=2).like()
+Post.objects.get(id=2).like()
+Post.objects.get(id=2).like()
+Author.objects.get(id=2).update_rating()
+Author.objects.get(id=2).ratingAuthor
+
+Post.objects.get(id=1).like()
+Post.objects.get(id=1).like()
+Author.objects.get(id=1).update_rating()
+Author.objects.get(id=1).ratingAuthor
+
+Author.objects.order_by('-ratingAuthor').values('authorUser__username', 'ratingAuthor', 'authorUser')[0]
+
+bestPost = Post.objects.order_by('-rating')[0]
+template = 'время и дата создания лучшей публикации: время {0} секунд {1} минут {2} часов, дата {3} месяц {4} {5} года'
+template.format(bestPost.dateCreation.second, bestPost.dateCreation.minute, bestPost.dateCreation.hour, bestPost.dateCreation.day, bestPost.dateCreation.month, bestPost.dateCreation.year)
+bestPost.author.authorUser.username
+bestPost.author.ratingAuthor
+bestPost.title
+bestPost.preview()
+
+Comment.objects.filter(commentPost=bestPost).values('id', 'dateCreation', 'commentUser__username', 'rating', 'text')
+
+commToBest = Comment.objects.filter(commentPost=bestPost)
+template1 = 'текст комментария: {0}'
+template1.format(commToBest[0].text)
+template2 = 'комментарий создан: время {0} секунд {1} минут {2} часов, дата {3} месяц {4} {5} года'
+
+for i in commToBest:
+    template2.format(i.dateCreation.second, i.dateCreation.minute, i.dateCreation.hour, i.dateCreation.day, i.dateCreation.month, i.dateCreation.year)
+    i.commentUser.username
+    i.rating
+    template1.format(i.text)
