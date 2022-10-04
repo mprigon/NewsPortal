@@ -1,0 +1,38 @@
+<!--  наследуемся от шаблона default.html, который мы создавали для flatpages -->
+{% extends 'flatpages/default.html' %}
+<!-- подключаем свой фильтр -->
+{% load custom_filters %}
+
+<!-- Название у нас будет news -->
+{% block title %}
+News
+{% endblock title %}
+
+<!-- В контенте на странице мы выводим все публикации -->
+{% block content %}
+    <h2>Все новости</h2>
+    <h3>Вывод всех новостей как Queryset, без фильтра censor</h3>
+    <hr>
+    {{ news }}
+    <hr>
+    {% if news %}
+        <h3>Количество новостей: {{ news|length }}</h3>
+        <hr>
+        <table>
+            <tr>
+                <td>Заголовок</td>
+                <td>Дата публикации</td>
+                <td>Выдержка из текста (20 символов)</td>
+            </tr>
+            {% for i_news in news %}
+            <tr>
+                <td>{{ i_news.title|censor }}</td>
+                <td>{{ i_news.time|date:'d.m.y' }}</td>
+                <td>{{ i_news.text|truncatechars:20|censor }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <h2>Новостей нет!</h2>
+    {% endif %}
+{% endblock content %}

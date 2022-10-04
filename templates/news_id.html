@@ -1,0 +1,29 @@
+<!--  наследуемся от шаблона default.html, который мы создавали для flatpages -->
+{% extends 'flatpages/default.html' %}
+<!-- подключаем свой фильтр -->
+{% load custom_filters %}
+
+<!-- Название у нас будет News_id -->
+{% block title %}
+News_id
+{% endblock title %}
+
+<!-- В контенте на странице мы выводим публикацию, идентификатор которой был передан в url -->
+{% block content %}
+    <h3>Новость по запросу без фильтра censor (текст ограничен 256 символами)</h3>
+    {{ news_id }}
+    <hr>
+    <table>
+        <tr>
+            <td>Заголовок</td>
+            <td>Дата</td>
+            <td>Полный текст</td>
+        </tr>
+        <tr>
+            <td>{{ news_id.title|censor }}</td>
+            <td>{{ news_id.time|date:'d.m.y' }}</td>
+            <td>{{ news_id.text|censor }}</td>
+        </tr>
+    </table>
+
+{% endblock content %}
