@@ -28,6 +28,9 @@ class Author(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=64, unique=True)
 
+    def __str__(self):
+        return self.name.title()
+
 
 class Post(models.Model):
     author = models.ForeignKey('Author', on_delete=models.CASCADE)
@@ -43,7 +46,7 @@ class Post(models.Model):
                                     choices=TYPE_CHOICES,
                                     default=NEWS)
     dateCreation = models.DateTimeField(auto_now_add=True)
-    postCategory = models.ManyToManyField(Category, through='PostCategory')
+    postCategory = models.ManyToManyField(Category, through='PostCategory', related_name='news')
 
     title = models.CharField(max_length=128)
     text = models.TextField()
@@ -58,10 +61,14 @@ class Post(models.Model):
         self.rating -= 1
         self.save()
 
-    # возвращает начало статьи (предварительный просмотр) длиной 124 символа и
+    # возвращает начало статьи (предварительный просмотр) длиной 65 символов и
     # добавляет многоточие в конце
     def preview(self):
-        return self.text[0:123] + '...'
+        return self.text[0:64] + '...'
+
+    def __str__(self):
+        return f'{self.title.title()}: {self.text[:256]}'
+        # title() -  Python метод строки, делает прописными первые буквы
 
 
 class PostCategory(models.Model):
