@@ -1,0 +1,16 @@
+{% extends 'flatpages/default.html' %}
+
+{% block content %}
+<h1>Удаление статьи - AR</h1>
+<hr>
+<form action="" method="post">
+    {% csrf_token %}
+    {% if news_id.categoryType == 'AR' %}
+        <p>Удаляем статью {{ news_id.categoryType }} "{{ news_id }}"?</p>
+        <input type="submit" value="Delete" />
+    {% else %}
+    <p>На этой странице можно удалить только статью - AR</p>
+    <p><a href='/news/{{news_id.pk}}/delete'>Удаление новости</a></p>
+    {% endif %}
+</form>
+{% endblock content %}

@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import Sum
+from django.urls import reverse
+from .validators import validate_not_empty
 
 
 class Author(models.Model):
@@ -22,6 +24,9 @@ class Author(models.Model):
 
         self.ratingAuthor = pRat * 3 +cRat
         self.save()
+
+    def __str__(self):
+        return self.authorUser.username
 
 
 # категории публикаций по тематикам - IT, кино, театр, книги, спорт, походы, хобби
@@ -46,10 +51,11 @@ class Post(models.Model):
                                     choices=TYPE_CHOICES,
                                     default=NEWS)
     dateCreation = models.DateTimeField(auto_now_add=True)
-    postCategory = models.ManyToManyField(Category, through='PostCategory', related_name='news')
+    # postCategory = models.ManyToManyField(Category, through='PostCategory', related_name='news')
+    postCategory = models.ManyToManyField(Category, through='PostCategory')
 
-    title = models.CharField(max_length=128)
-    text = models.TextField()
+    title = models.CharField(max_length=128, validators=[validate_not_empty])
+    text = models.TextField(validators=[validate_not_empty])
     time = models.DateTimeField(auto_now_add=True)
     rating = models.SmallIntegerField(default=0)
 
@@ -69,6 +75,9 @@ class Post(models.Model):
     def __str__(self):
         return f'{self.title.title()}: {self.text[:256]}'
         # title() -  Python метод строки, делает прописными первые буквы
+
+    def get_absolute_url(self):
+        return reverse('news_id', args=[str(self.id)])
 
 
 class PostCategory(models.Model):
