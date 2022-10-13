@@ -13,10 +13,18 @@ News
 <!-- В контенте на странице мы выводим все публикации -->
 {% block content %}
     <h2>Все публикации (новости и статьи)</h2>
-    <h3>Вывод как Queryset, без фильтра censor</h3>
+<!--    <h3>Вывод как Queryset, без фильтра censor</h3>-->
+<!--    <hr>-->
+<!--    {{ news }}-->
     <hr>
-    {{ news }}
-    <hr>
+    {# Теперь будем проверять не request.user.is_authenticated, а конкретные права #}
+    {# user - это тоже template variable #}
+    {# perms - переменная(template variable), в которой сохраняются права текущего пользователя #}
+    {% if perms.app1.add_post %}
+        <a href="{% url 'news_create' %}">Добавить публикацию</a>
+    {% endif %}
+
+
     {% if news %}
         <h3>Количество публикаций на странице: {{ news|length }}</h3>
         <hr>
@@ -25,12 +33,37 @@ News
                 <td>Заголовок</td>
                 <td>Дата публикации</td>
                 <td>Выдержка из текста (20 символов)</td>
+                <td>Категория</td>
+                {# Условие получается составным. #}
+                {% if perms.app1.change_post or perms.app1.delete_post %}
+                    <td>Действия</td>
+                {% endif %}
             </tr>
             {% for i_news in news %}
             <tr>
                 <td>{{ i_news.title|censor }}</td>
                 <td>{{ i_news.time|date:'d.m.y' }}</td>
                 <td>{{ i_news.text|truncatechars:20|censor }}</td>
+                <td>{{ i_news.postCategory.all }}</td>
+                <td>
+               {# А здесь доступ для каждой ссылки теперь будем проверять отдельно #}
+                    {% if perms.app1.change_post %}
+                        {% if i_news.categoryType == 'NW' %}
+                            <a href="{% url 'news_edit' pk=i_news.id %}">Изменить новость</a>
+                        {% endif %}
+                        {% if i_news.categoryType == 'AR' %}
+                            <a href="{% url 'article_edit' pk=i_news.id %}">Изменить статью</a>
+                        {% endif %}
+                    {% endif %}
+                    {% if perms.app1.delete_post %}
+                        {% if i_news.categoryType == 'NW' %}
+                            <a href="{% url 'news_delete' pk=i_news.id %}">Удалить новость</a>
+                        {% endif %}
+                        {% if i_news.categoryType == 'AR' %}
+                            <a href="{% url 'article_delete' pk=i_news.id %}">Удалить статью</a>
+                        {% endif %}
+                    {% endif %}
+               </td>
             </tr>
             {% endfor %}
         </table>

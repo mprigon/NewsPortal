@@ -22,6 +22,10 @@ urlpatterns = [
     # Делаем так, чтобы все адреса из нашего приложения (app1/urls.py)
     # подключались к главному приложению с префиксом news/.
     # path('news/', include('app1.urls')),
+    # следующие убираем, чтобы работала страничка allauth
+    # path('accounts/', include('django.contrib.auth.urls')),
+    # path('accounts/', include('accounts.urls')),
+    path('accounts/', include('allauth.urls')),
     # для выполнения задания D4.7 убираем префикс news/
     # иначе будет /news/news/
     path('', include('app1.urls')),

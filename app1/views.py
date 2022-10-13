@@ -6,9 +6,14 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView,\
 from .models import Post
 from .filters import PostFilter
 from .forms import NewsForm, ArticleForm
+from django.views import View
+from django.http import HttpResponse, HttpRequest
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+
 # from django.http import HttpResponseRedirect
 # from django import forms
 # from django.core.exceptions import ValidationError
+import datetime
 
 
 class PostList(ListView):
@@ -65,7 +70,9 @@ class PostDetail(DetailView):
 
 
 # Добавляем новое представление для создания Новости.
-class NewsCreate(CreateView):
+class NewsCreate(PermissionRequiredMixin, CreateView):
+    permission_required = ('app1.add_post')
+    raise_exception = True
     # Указываем нашу разработанную форму
     form_class = NewsForm
     # модель товаров
@@ -83,20 +90,26 @@ class NewsCreate(CreateView):
         return super().form_valid(form)
 
 
-class NewsEdit(UpdateView):
+class NewsEdit(PermissionRequiredMixin, UpdateView):
+    permission_required = ('app1.change_post')
+    raise_exception = True
     form_class = NewsForm
     model = Post
     template_name = 'news_edit.html'
 
 
-class NewsDelete(DeleteView):
+class NewsDelete(PermissionRequiredMixin, DeleteView):
+    permission_required = ('app1.delete_post')
+    raise_exception = True
     model = Post
     template_name = 'news_delete.html'
     success_url = reverse_lazy('news_article')
     context_object_name = 'news_id'
 
 
-class ArticleCreate(CreateView):
+class ArticleCreate(PermissionRequiredMixin, CreateView):
+    permission_required = ('app1.add_post')
+    raise_exception = True
     # Указываем нашу разработанную форму
     form_class = ArticleForm
     # модель товаров
@@ -114,8 +127,18 @@ class ArticleCreate(CreateView):
         return super().form_valid(form)
 
 
-class ArticleDelete(DeleteView):
+class ArticleDelete(PermissionRequiredMixin, DeleteView):
+    permission_required = ('app1.delete_post')
+    raise_exception = True
     model = Post
     template_name = 'article_delete.html'
     success_url = reverse_lazy('news_article')
     context_object_name = 'news_id'
+
+
+class TestView(View):
+    def get(self, request, *args, **kwargs):
+        current_path = request.path
+        current_method = request.method
+        current_get = request.GET
+        return HttpResponse(f"CreatePost {current_path} method = {current_method} GET param = {current_get}")

@@ -53,7 +53,7 @@ class Post(models.Model):
     dateCreation = models.DateTimeField(auto_now_add=True)
     # postCategory = models.ManyToManyField(Category, through='PostCategory', related_name='news')
     postCategory = models.ManyToManyField(Category, through='PostCategory')
-
+    p_name = postCategory.name
     title = models.CharField(max_length=128, validators=[validate_not_empty])
     text = models.TextField(validators=[validate_not_empty])
     time = models.DateTimeField(auto_now_add=True)
