@@ -22,7 +22,7 @@ class Author(models.Model):
         cRat = 0
         cRat += commentRat.get('commentRating')
 
-        self.ratingAuthor = pRat * 3 +cRat
+        self.ratingAuthor = pRat * 3 + cRat
         self.save()
 
     def __str__(self):
@@ -32,9 +32,13 @@ class Author(models.Model):
 # категории публикаций по тематикам - IT, кино, театр, книги, спорт, походы, хобби
 class Category(models.Model):
     name = models.CharField(max_length=64, unique=True)
+    # пользователи, подписанные на эту категорию
+    subscribers = models.ManyToManyField(User, related_name='categories')
 
     def __str__(self):
-        return self.name.title()
+        # title() делает прописными первые буквы каждого слова
+        # return self.name.title()
+        return self.name
 
 
 class Post(models.Model):
@@ -53,7 +57,6 @@ class Post(models.Model):
     dateCreation = models.DateTimeField(auto_now_add=True)
     # postCategory = models.ManyToManyField(Category, through='PostCategory', related_name='news')
     postCategory = models.ManyToManyField(Category, through='PostCategory')
-    p_name = postCategory.name
     title = models.CharField(max_length=128, validators=[validate_not_empty])
     text = models.TextField(validators=[validate_not_empty])
     time = models.DateTimeField(auto_now_add=True)
@@ -70,14 +73,17 @@ class Post(models.Model):
     # возвращает начало статьи (предварительный просмотр) длиной 65 символов и
     # добавляет многоточие в конце
     def preview(self):
-        return self.text[0:64] + '...'
+        preview = f'{self.text[0:64]}...'
+        return preview
 
     def __str__(self):
-        return f'{self.title.title()}: {self.text[:256]}'
+        # return f'{self.title.title()}: {self.text[:256]}'
         # title() -  Python метод строки, делает прописными первые буквы
+        return f'{self.title}: {self.text[:256]}'
 
     def get_absolute_url(self):
-        return reverse('news_id', args=[str(self.id)])
+        # return reverse('news_id', args=[str(self.id)])
+        return f'/news/{self.id}'
 
 
 class PostCategory(models.Model):

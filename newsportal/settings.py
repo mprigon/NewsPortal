@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -40,13 +43,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.flatpages',
-    'app1',
+    'app1.apps.App1Config',
 
     # для allauth
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.yandex',
+
+    'django_apscheduler',
 ]
 
 SITE_ID = 1
@@ -144,8 +149,8 @@ LOGIN_REDIRECT_URL = '/news'
 
 # раздел для allauth
 AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
+    'django.contrib.auth.backends.ModelBackend',  # для загрузки в Django admin независимо от allauth
+    'allauth.account.auth_backends.AuthenticationBackend',  # особые методы для загрузки, например, по e-mail
 ]
 
 ACCOUNT_EMAIL_REQUIRED = True
@@ -153,5 +158,22 @@ ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
+# ACCOUNT_EMAIL_VERIFICATION = 'mandatory'  # верификация - отправление письма на эл.почту
 
 ACCOUNT_FORMS = {"signup": "accounts.forms.CustomSignupForm"}
+
+SITE_URL = 'http://127.0.0.1:8000'
+
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+# EMAIL_HOST_USER = 'mprigon'
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+# EMAIL_HOST_PASSWORD = 'flcenlzutvamaxzn'  # неправильно хранить его здесь, надо в переменных окружения
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_USE_SSL = 'True'
+
+# DEFAULT_FROM_EMAIL = 'mprigon@yandex.ru'  # почта, с которой будут отправляться письма
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
+
+APSCHEDULER_DATETIME_FORMAT = 'N j, Y, f:s a'
+APSCHEDULER_RUN_NOW_TIMEOUT = 25

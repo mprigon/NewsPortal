@@ -3,12 +3,14 @@
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView,\
     DeleteView
-from .models import Post
+from .models import Post, Category
 from .filters import PostFilter
 from .forms import NewsForm, ArticleForm
 from django.views import View
 from django.http import HttpResponse, HttpRequest
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.shortcuts import redirect, get_object_or_404, render
+from django.contrib.auth.decorators import login_required
 
 # from django.http import HttpResponseRedirect
 # from django import forms
@@ -142,3 +144,44 @@ class TestView(View):
         current_method = request.method
         current_get = request.GET
         return HttpResponse(f"CreatePost {current_path} method = {current_method} GET param = {current_get}")
+
+
+class HomePageView(ListView):
+    model = Post
+    template_name = 'home_page.html'
+
+
+# view для страницы, на которой можно будет подписаться на определенную категорию новостей
+class CategoryListView(ListView):
+    model = Post
+    template_name = 'category_list.html'
+    context_object_name = 'category_news_list'
+    ordering = '-time'
+
+    def get_queryset(self):
+        # фильтруем новости по категории, которую передали в адресе страницы как pk
+        # метод ..._404 удобен, так как не требуется обрабатывать ошибку, если категории нет
+        self.category = get_object_or_404(Category, id=self.kwargs['pk'])
+        queryset = Post.objects.filter(postCategory=self.category)
+        # .order_by('-date')
+        return queryset
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        # кнопка "подписаться" должна появляться у тех, кто еще не подписан
+        context['is_not_subscriber'] = self.request.user not in self.category.subscribers.all()
+        context['category'] = self.category
+        return context
+
+
+@login_required
+def subscribe(request, pk):
+    user = request.user
+    category = Category.objects.get(id=pk)
+    # можно было бы и здесь использовать get_object_or_404, а не просто get но
+    # сюда мы будем передавать pk только существующей категории
+    category.subscribers.add(user)
+
+    message = 'Вы успешно подписались на рассылку новостей категории'
+    return render(request, 'subscribe.html', {'category': category, 'message': message})

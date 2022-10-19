@@ -21,7 +21,8 @@ News
     {# user - это тоже template variable #}
     {# perms - переменная(template variable), в которой сохраняются права текущего пользователя #}
     {% if perms.app1.add_post %}
-        <a href="{% url 'news_create' %}">Добавить публикацию</a>
+        <a href="{% url 'news_create' %}">Добавить новость</a>
+        <a href="{% url 'article_create' %}">Добавить статью</a>
     {% endif %}
 
 
@@ -39,12 +40,17 @@ News
                     <td>Действия</td>
                 {% endif %}
             </tr>
+
             {% for i_news in news %}
             <tr>
                 <td>{{ i_news.title|censor }}</td>
                 <td>{{ i_news.time|date:'d.m.y' }}</td>
                 <td>{{ i_news.text|truncatechars:20|censor }}</td>
-                <td>{{ i_news.postCategory.all }}</td>
+<!--                <td>{{ i_news.postCategory.all }}</>td>-->
+                <td>
+                    {% for category in i_news.postCategory.all %}
+                        <a href="{% url 'category_list' pk=category.id %}">{{ category }}</a>
+                    {% endfor %}
                 <td>
                {# А здесь доступ для каждой ссылки теперь будем проверять отдельно #}
                     {% if perms.app1.change_post %}
@@ -55,6 +61,7 @@ News
                             <a href="{% url 'article_edit' pk=i_news.id %}">Изменить статью</a>
                         {% endif %}
                     {% endif %}
+
                     {% if perms.app1.delete_post %}
                         {% if i_news.categoryType == 'NW' %}
                             <a href="{% url 'news_delete' pk=i_news.id %}">Удалить новость</a>
