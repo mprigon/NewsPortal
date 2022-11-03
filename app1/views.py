@@ -11,6 +11,8 @@ from django.http import HttpResponse, HttpRequest
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.shortcuts import redirect, get_object_or_404, render
 from django.contrib.auth.decorators import login_required
+from .tasks import hello, printer
+
 
 # from django.http import HttpResponseRedirect
 # from django import forms
@@ -149,6 +151,15 @@ class TestView(View):
 class HomePageView(ListView):
     model = Post
     template_name = 'home_page.html'
+
+    # запуск задач по открытию домашней страницы
+    # тестирование Celery
+    # def get(self, request):
+    #     # printer.delay(10)
+    #     printer.apply_async([10], countdown=5)
+    #     hello.delay()
+    #     return HttpResponse('Hello!')
+
 
 
 # view для страницы, на которой можно будет подписаться на определенную категорию новостей

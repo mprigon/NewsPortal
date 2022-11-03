@@ -1,0 +1,35 @@
+# linux - Debian
+# Redis - установить
+# Celery - установить
+
+python manage.py runserver
+
+# в предыдущем задании реализована рассыслка через apsheduler
+# здесь тоже можно запустить как дублирующий вариант еженедельного
+# оповещения
+
+python manage.py runapscheduler
+
+# проверить, работает ли redis,
+redis-cli ping
+# если нет, то
+
+redis-server
+
+# для запуска периодических задач
+# внимание - для наглядности последовательность имеет значение,
+# чтобы не мешала ошибка
+# _gdbm.error: [Errno 11] Resource temporarily unavailable: 'celerybeat-schedule'
+# сначала celery beat, потом celery worker
+# какие-то проблемы с правами записи в файл celerybeat-schedule
+# предположительно, из-за попытки одновременного доступа
+# ошибка не блокирует программу, задачи работают
+
+celery -A newsportal beat -l INFO
+
+celery -A newsportal worker -l INFO -B
+
+# не решение (пока не понимаю) _gdbm.error: [Errno 11]
+# установить django-celery-beat, добавить django_celery_beat
+# в settings - applications, применить миграции и запускать так:
+# celery -A newsportal beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler
