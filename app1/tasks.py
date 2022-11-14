@@ -1,12 +1,13 @@
 import datetime
 import time
 from celery import shared_task
-from .models import Post, Category,PostCategory
 from django.template.loader import render_to_string
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.dispatch import receiver
 from django.db.models.signals import m2m_changed
+from .models import Post, Category, PostCategory
+
 
 # задача для тестирования работы Celery
 @shared_task
@@ -14,6 +15,7 @@ def printer(N):
     for i in range(N):
         time.sleep(1)
         print(i+1)
+
 
 # задача для тестирования работы Celery
 @shared_task
@@ -70,8 +72,8 @@ def celery_week_notify():
     today = datetime.datetime.now()
     last_week = today - datetime.timedelta(days=7)
     posts = Post.objects.filter(dateCreation__gte=last_week)
-    categories = set(posts.values_list('postCategory__name', flat=True))  # flat - чтобы на выходе был список,
-    # а не словарь с именами категорий
+    categories = set(posts.values_list('postCategory__name', flat=True))
+    # flat - чтобы на выходе был список, а не словарь с именами категорий
     subscribers = set(Category.objects.filter(name__in=categories).values_list(
         'subscribers__email', flat=True))
     html_content = render_to_string(

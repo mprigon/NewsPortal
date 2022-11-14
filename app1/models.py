@@ -1,7 +1,7 @@
+from django.core.cache import cache
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import Sum
-from django.urls import reverse
 from .validators import validate_not_empty
 
 
@@ -29,8 +29,9 @@ class Author(models.Model):
         return self.authorUser.username
 
 
-# категории публикаций по тематикам - IT, кино, театр, книги, спорт, походы, хобби
+# категории публикаций по тематикам - IT, кино, театр,
 class Category(models.Model):
+    """Thematic division of news and articles made by admin."""
     name = models.CharField(max_length=64, unique=True)
     # пользователи, подписанные на эту категорию
     subscribers = models.ManyToManyField(User, related_name='categories')
@@ -83,7 +84,14 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         # return reverse('news_id', args=[str(self.id)])
-        return f'/news/{self.id}'
+        return f'/news/{self.pk}'
+
+    # добавляем кэширование
+    def save(self, *args, **kwargs):
+        # сначала вызываем метод родителя, чтобы объект сохранился
+        super().save(*args, **kwargs)
+        # затем удаляем его из кэша, чтобы сбросить его
+        cache.delete(f'post-{self.pk}')
 
 
 class PostCategory(models.Model):
@@ -105,3 +113,6 @@ class Comment(models.Model):
     def dislike(self):
         self.rating -= 1
         self.save()
+
+    def __str__(self):
+        return f'текст комментария: {self.text[:128]}'
