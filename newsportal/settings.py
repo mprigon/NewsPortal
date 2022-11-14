@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'django.contrib.flatpages',
     'app1.apps.App1Config',
 
-    # для allauth
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -131,7 +130,6 @@ USE_I18N = True
 
 USE_TZ = False
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
@@ -182,3 +180,17 @@ CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'EUROPE/MOSCOW'
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': os.path.join(BASE_DIR, 'cache_files'),
+
+    }
+}
+
+# Совет Алисы Миллер - для тестирования отправки электронной почты
+# проверил - вместо почты выдает подробную информацию в консоль!
+# выше было DEBUG = True
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

@@ -1,23 +1,26 @@
 # Импортируем класс, который говорит нам о том,
 # что в этом представлении мы будем выводить список объектов из БД
+from django.core.cache import cache
+from django.core.mail import send_mail
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView,\
     DeleteView
-from .models import Post, Category
-from .filters import PostFilter
-from .forms import NewsForm, ArticleForm
 from django.views import View
 from django.http import HttpResponse, HttpRequest
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.shortcuts import redirect, get_object_or_404, render
 from django.contrib.auth.decorators import login_required
+from .models import Post, Category
+from .filters import PostFilter
+from .forms import NewsForm, ArticleForm
 from .tasks import hello, printer
-
 
 # from django.http import HttpResponseRedirect
 # from django import forms
 # from django.core.exceptions import ValidationError
 import datetime
+
+from django.conf import settings
 
 
 class PostList(ListView):
@@ -72,14 +75,31 @@ class PostDetail(DetailView):
     # Название объекта, в котором будет выбранная пользователем публикация
     context_object_name = 'news_id'  # используем в news_delete.html, article_delete.html
 
+    # добавляем кэширование страниц по отдельной публикации
+    # напоминание про pk и id
+    # можно переопределить название pk, например, на id
+    # pk_url_kwarg = 'id'
+    def get_object(self, *args, **kwargs):
+        obj = cache.get(f'post-{self.kwargs["pk"]}', None)
+        # кэш очень похож на словарь, и метод get действует так же.
+        # Он забирает значение по ключу, если его нет, то забирает None
+
+        # если объекта нет в кэше, то получаем его и записываем в кэш
+        if not obj:
+            obj = super().get_object(queryset=self.queryset)
+            cache.set(f'post-{self.kwargs["pk"]}', obj)
+
+        return obj
+
 
 # Добавляем новое представление для создания Новости.
 class NewsCreate(PermissionRequiredMixin, CreateView):
+    print('начало работы view NewsCreate')
     permission_required = ('app1.add_post')
     raise_exception = True
     # Указываем нашу разработанную форму
     form_class = NewsForm
-    # модель товаров
+    # модель публикаций
     model = Post
     # и новый шаблон, в котором используется форма.
     template_name = 'news_create.html'
@@ -89,6 +109,7 @@ class NewsCreate(PermissionRequiredMixin, CreateView):
         # /news/create/ - NEWS
 
         post = form.save(commit=False)
+        print('валидация form.save')
         post.categoryType = 'NW'
 
         return super().form_valid(form)
@@ -129,6 +150,7 @@ class ArticleCreate(PermissionRequiredMixin, CreateView):
         post.categoryType = 'AR'
 
         return super().form_valid(form)
+        # запрет публиковать более трех статей в день
 
 
 class ArticleDelete(PermissionRequiredMixin, DeleteView):
@@ -161,7 +183,6 @@ class HomePageView(ListView):
     #     return HttpResponse('Hello!')
 
 
-
 # view для страницы, на которой можно будет подписаться на определенную категорию новостей
 class CategoryListView(ListView):
     model = Post
@@ -188,6 +209,7 @@ class CategoryListView(ListView):
 
 @login_required
 def subscribe(request, pk):
+    """Subscribe authorized user to news in specific category"""
     user = request.user
     category = Category.objects.get(id=pk)
     # можно было бы и здесь использовать get_object_or_404, а не просто get но
@@ -196,3 +218,22 @@ def subscribe(request, pk):
 
     message = 'Вы успешно подписались на рассылку новостей категории'
     return render(request, 'subscribe.html', {'category': category, 'message': message})
+
+
+@login_required
+def author_status_request(request):
+    """Send e-mail request to administrator to acquire Author status.
+    Admin will give the status manually."""
+    user = request.user
+    # user_email = request.user.email
+    mail_subject = 'Zayavka заявка'
+    admin_message = f'Пользователь {user}. Заявка на статус "Автор" через сайт'
+    # confirm_message = 'Ваша заявка на присвоение статуса "Автор" направлена администратору'
+    send_mail(
+        subject=mail_subject,
+        message=admin_message,
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        recipient_list=[settings.DEFAULT_FROM_EMAIL]
+    )
+
+    return render(request, 'author_status_request.html', {'message': confirm_message})

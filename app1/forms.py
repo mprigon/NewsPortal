@@ -10,7 +10,6 @@ class NewsForm(forms.ModelForm):
     #     required=True,
     #     )
 
-
     class Meta:
         model = Post
         fields = [
