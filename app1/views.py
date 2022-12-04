@@ -228,7 +228,7 @@ def author_status_request(request):
     # user_email = request.user.email
     mail_subject = 'Zayavka заявка'
     admin_message = f'Пользователь {user}. Заявка на статус "Автор" через сайт'
-    # confirm_message = 'Ваша заявка на присвоение статуса "Автор" направлена администратору'
+    confirm_message = 'Ваша заявка на присвоение статуса "Автор" направлена администратору'
     send_mail(
         subject=mail_subject,
         message=admin_message,
