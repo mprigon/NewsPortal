@@ -1,0 +1,159 @@
+2022-12-10 14:00:04,101 INFO autoreload Watching for file changes with StatReloader
+2022-12-10 14:00:06,087 ERROR log Internal Server Error: /news/
+Traceback (most recent call last):
+  File "/home/maksim/PycharmProjects/NewsPortal/venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/maksim/PycharmProjects/NewsPortal/venv/lib/python3.11/site-packages/django/core/handlers/base.py", line 220, in _get_response
+    response = response.render()
+               ^^^^^^^^^^^^^^^^^
+  File "/home/maksim/PycharmProjects/NewsPortal/venv/lib/python3.11/site-packages/django/template/response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/maksim/PycharmProjects/NewsPortal/venv/lib/python3.11/site-packages/django/template/response.py", line 90, in rendered_content
+    template = self.resolve_template(self.template_name)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/maksim/PycharmProjects/NewsPortal/venv/lib/python3.11/site-packages/django/template/response.py", line 72, in resolve_template
+    return select_template(template, using=self.using)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/maksim/PycharmProjects/NewsPortal/venv/lib/python3.11/site-packages/django/template/loader.py", line 47, in select_template
+    raise TemplateDoesNotExist(", ".join(template_name_list), chain=chain)
+django.template.exceptions.TemplateDoesNotExist: _news_all.html, app1/post_list.html
+2022-12-10 14:00:06,095 ERROR basehttp "GET /news/ HTTP/1.1" 500 93462
+2022-12-10 14:07:09,173 INFO autoreload /home/maksim/PycharmProjects/NewsPortal/newsportal/app1/views.py changed, reloading.
+2022-12-10 14:07:09,651 INFO autoreload Watching for file changes with StatReloader
+2022-12-10 14:07:16,088 INFO basehttp "GET /news/ HTTP/1.1" 200 9410
+2022-12-10 14:07:22,111 INFO basehttp "GET /news/66 HTTP/1.1" 200 3437
+2022-12-10 14:07:24,969 INFO basehttp "GET /news/57 HTTP/1.1" 200 3531
+2022-12-10 14:17:59,880 INFO autoreload /home/maksim/PycharmProjects/NewsPortal/newsportal/app1/views.py changed, reloading.
+2022-12-10 14:18:00,487 INFO autoreload Watching for file changes with StatReloader
+2022-12-10 14:20:34,188 INFO autoreload /home/maksim/PycharmProjects/NewsPortal/newsportal/app1/views.py changed, reloading.
+2022-12-10 14:20:34,637 INFO autoreload Watching for file changes with StatReloader
+2022-12-10 14:21:12,271 INFO autoreload /home/maksim/PycharmProjects/NewsPortal/newsportal/app1/views.py changed, reloading.
+2022-12-10 14:21:12,732 INFO autoreload Watching for file changes with StatReloader
+2022-12-10 14:23:57,699 INFO autoreload /home/maksim/PycharmProjects/NewsPortal/newsportal/app1/views.py changed, reloading.
+2022-12-10 14:23:58,334 INFO autoreload Watching for file changes with StatReloader
+2022-12-10 15:12:22,213 INFO autoreload /home/maksim/PycharmProjects/NewsPortal/newsportal/newsportal/settings.py changed, reloading.
+2022-12-10 15:12:22,779 INFO autoreload Watching for file changes with StatReloader
+2022-12-10 22:22:13,362 INFO autoreload Watching for file changes with StatReloader
+2022-12-10 22:23:06,357 INFO autoreload /home/maksim/PycharmProjects/NewsPortal/newsportal/app1/views.py changed, reloading.
+2022-12-10 22:23:07,174 INFO autoreload Watching for file changes with StatReloader
+2022-12-10 22:24:43,572 INFO autoreload /home/maksim/PycharmProjects/NewsPortal/newsportal/newsportal/settings.py changed, reloading.
+2022-12-10 22:24:44,080 INFO autoreload Watching for file changes with StatReloader
+2022-12-10 22:25:24,742 INFO autoreload /home/maksim/PycharmProjects/NewsPortal/newsportal/newsportal/settings.py changed, reloading.
+2022-12-10 22:25:25,238 INFO autoreload Watching for file changes with StatReloader
+2022-12-10 22:30:01,167 INFO autoreload /home/maksim/PycharmProjects/NewsPortal/newsportal/newsportal/settings.py changed, reloading.
+2022-12-10 22:30:01,617 INFO autoreload Watching for file changes with StatReloader
+2022-12-10 22:31:48,579 INFO autoreload /home/maksim/PycharmProjects/NewsPortal/newsportal/newsportal/settings.py changed, reloading.
+2022-12-10 22:31:49,142 INFO autoreload Watching for file changes with StatReloader
+2022-12-10 22:32:01,561 INFO autoreload /home/maksim/PycharmProjects/NewsPortal/newsportal/newsportal/settings.py changed, reloading.
+2022-12-10 22:32:02,134 INFO autoreload Watching for file changes with StatReloader
+2022-12-10 22:32:39,077 INFO autoreload /home/maksim/PycharmProjects/NewsPortal/newsportal/newsportal/settings.py changed, reloading.
+2022-12-10 22:32:39,660 INFO autoreload Watching for file changes with StatReloader
+2022-12-10 22:33:29,746 INFO autoreload /home/maksim/PycharmProjects/NewsPortal/newsportal/newsportal/settings.py changed, reloading.
+2022-12-10 22:33:30,330 INFO autoreload Watching for file changes with StatReloader
+2022-12-10 22:33:45,781 INFO autoreload /home/maksim/PycharmProjects/NewsPortal/newsportal/newsportal/settings.py changed, reloading.
+2022-12-10 22:33:46,337 INFO autoreload Watching for file changes with StatReloader
+2022-12-11 20:03:29,425 INFO autoreload Watching for file changes with StatReloader
+2022-12-11 20:05:32,494 INFO autoreload /home/maksim/PycharmProjects/NewsPortal/newsportal/newsportal/settings.py changed, reloading.
+2022-12-11 20:05:33,295 INFO autoreload Watching for file changes with StatReloader
+2022-12-11 20:08:10,693 INFO autoreload /home/maksim/PycharmProjects/NewsPortal/newsportal/app1/views.py changed, reloading.
+2022-12-11 20:08:11,376 INFO autoreload Watching for file changes with StatReloader
+2022-12-11 20:10:11,947 INFO autoreload /home/maksim/PycharmProjects/NewsPortal/newsportal/app1/views.py changed, reloading.
+2022-12-11 20:10:12,763 INFO autoreload Watching for file changes with StatReloader
+2022-12-11 20:11:34,315 INFO autoreload /home/maksim/PycharmProjects/NewsPortal/newsportal/app1/views.py changed, reloading.
+2022-12-11 20:11:35,126 INFO autoreload Watching for file changes with StatReloader
+2022-12-11 20:12:36,656 INFO autoreload /home/maksim/PycharmProjects/NewsPortal/newsportal/app1/views.py changed, reloading.
+2022-12-11 20:12:37,380 INFO autoreload Watching for file changes with StatReloader
+2022-12-11 20:12:54,900 INFO basehttp "GET / HTTP/1.1" 200 2913
+2022-12-11 20:12:55,013 WARNING log Not Found: /favicon.ico
+2022-12-11 20:12:55,014 WARNING basehttp "GET /favicon.ico HTTP/1.1" 404 4938
+2022-12-11 20:12:58,291 INFO basehttp "GET /news/ HTTP/1.1" 200 9410
+2022-12-11 20:13:12,460 INFO basehttp "GET /news/66 HTTP/1.1" 200 3437
+2022-12-11 20:13:23,943 INFO basehttp "GET /admin/ HTTP/1.1" 302 0
+2022-12-11 20:13:23,972 INFO basehttp "GET /admin/login/?next=/admin/ HTTP/1.1" 200 2218
+2022-12-11 20:13:24,017 INFO basehttp "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 304 0
+2022-12-11 20:13:24,018 INFO basehttp "GET /static/admin/css/base.css HTTP/1.1" 304 0
+2022-12-11 20:13:24,019 INFO basehttp "GET /static/admin/css/dark_mode.css HTTP/1.1" 304 0
+2022-12-11 20:13:24,020 INFO basehttp "GET /static/admin/css/login.css HTTP/1.1" 304 0
+2022-12-11 20:13:24,021 INFO basehttp "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 304 0
+2022-12-11 20:13:24,022 INFO basehttp "GET /static/admin/css/responsive.css HTTP/1.1" 304 0
+2022-12-11 20:13:24,026 INFO basehttp "GET /static/admin/css/fonts.css HTTP/1.1" 304 0
+2022-12-11 20:13:24,066 INFO basehttp "GET /static/admin/fonts/Roboto-Light-webfont.woff HTTP/1.1" 304 0
+2022-12-11 20:13:24,067 INFO basehttp "GET /static/admin/fonts/Roboto-Regular-webfont.woff HTTP/1.1" 304 0
+2022-12-11 20:13:31,978 INFO basehttp "POST /admin/login/?next=/admin/ HTTP/1.1" 302 0
+2022-12-11 20:13:32,021 INFO basehttp "GET /admin/ HTTP/1.1" 200 16505
+2022-12-11 20:13:32,050 INFO basehttp "GET /static/admin/css/dashboard.css HTTP/1.1" 304 0
+2022-12-11 20:13:32,103 INFO basehttp "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 304 0
+2022-12-11 20:13:32,104 INFO basehttp "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 304 0
+2022-12-11 20:13:32,156 INFO basehttp "GET /static/admin/fonts/Roboto-Bold-webfont.woff HTTP/1.1" 304 0
+2022-12-11 20:13:35,489 INFO basehttp "GET / HTTP/1.1" 200 2913
+2022-12-11 20:13:39,069 INFO basehttp "GET /news/ HTTP/1.1" 200 9410
+2022-12-11 20:13:42,255 INFO basehttp "GET /news/ HTTP/1.1" 200 9410
+2022-12-11 20:13:44,310 INFO basehttp "GET /news/ HTTP/1.1" 200 9410
+2022-12-11 20:13:45,133 INFO basehttp "GET /news/ HTTP/1.1" 200 9410
+2022-12-11 20:13:52,075 INFO basehttp "GET /news/ HTTP/1.1" 200 9410
+2022-12-11 20:13:53,258 INFO basehttp "GET /news/ HTTP/1.1" 200 9410
+2022-12-11 20:13:55,443 INFO basehttp "GET / HTTP/1.1" 200 2913
+2022-12-11 20:14:06,245 INFO basehttp "GET /news/ HTTP/1.1" 200 13215
+2022-12-11 20:14:10,703 INFO basehttp "GET /news/58 HTTP/1.1" 200 3531
+2022-12-11 20:14:16,745 ERROR log Internal Server Error: /news/66/edit/
+Traceback (most recent call last):
+  File "/home/maksim/PycharmProjects/NewsPortal/venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/maksim/PycharmProjects/NewsPortal/venv/lib/python3.11/site-packages/django/core/handlers/base.py", line 220, in _get_response
+    response = response.render()
+               ^^^^^^^^^^^^^^^^^
+  File "/home/maksim/PycharmProjects/NewsPortal/venv/lib/python3.11/site-packages/django/template/response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/maksim/PycharmProjects/NewsPortal/venv/lib/python3.11/site-packages/django/template/response.py", line 90, in rendered_content
+    template = self.resolve_template(self.template_name)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/maksim/PycharmProjects/NewsPortal/venv/lib/python3.11/site-packages/django/template/response.py", line 72, in resolve_template
+    return select_template(template, using=self.using)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/maksim/PycharmProjects/NewsPortal/venv/lib/python3.11/site-packages/django/template/loader.py", line 47, in select_template
+    raise TemplateDoesNotExist(", ".join(template_name_list), chain=chain)
+django.template.exceptions.TemplateDoesNotExist: __news_edit.html
+2022-12-11 20:14:16,763 ERROR basehttp "GET /news/66/edit/ HTTP/1.1" 500 91183
+2022-12-11 20:16:17,648 INFO autoreload /home/maksim/PycharmProjects/NewsPortal/newsportal/app1/views.py changed, reloading.
+2022-12-11 20:16:18,807 INFO autoreload Watching for file changes with StatReloader
+2022-12-11 20:16:19,686 INFO basehttp "GET /news/66/edit/ HTTP/1.1" 200 4451
+2022-12-11 20:17:35,711 INFO autoreload /home/maksim/PycharmProjects/NewsPortal/newsportal/newsportal/settings.py changed, reloading.
+2022-12-11 20:17:36,477 INFO autoreload Watching for file changes with StatReloader
+2022-12-11 20:30:13,564 INFO autoreload /home/maksim/PycharmProjects/NewsPortal/newsportal/newsportal/settings.py changed, reloading.
+2022-12-11 20:30:14,585 INFO autoreload Watching for file changes with StatReloader
+2022-12-11 20:31:03,132 INFO autoreload /home/maksim/PycharmProjects/NewsPortal/newsportal/newsportal/settings.py changed, reloading.
+2022-12-11 20:31:03,930 INFO autoreload Watching for file changes with StatReloader
+2022-12-11 20:31:36,989 INFO autoreload /home/maksim/PycharmProjects/NewsPortal/newsportal/app1/views.py changed, reloading.
+2022-12-11 20:31:37,821 INFO autoreload Watching for file changes with StatReloader
+2022-12-11 20:31:43,363 INFO basehttp "GET / HTTP/1.1" 200 2913
+2022-12-11 20:31:44,866 INFO basehttp "GET /news/ HTTP/1.1" 200 13215
+2022-12-11 20:31:48,019 ERROR log Internal Server Error: /news/65/edit/
+Traceback (most recent call last):
+  File "/home/maksim/PycharmProjects/NewsPortal/venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/maksim/PycharmProjects/NewsPortal/venv/lib/python3.11/site-packages/django/core/handlers/base.py", line 220, in _get_response
+    response = response.render()
+               ^^^^^^^^^^^^^^^^^
+  File "/home/maksim/PycharmProjects/NewsPortal/venv/lib/python3.11/site-packages/django/template/response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/maksim/PycharmProjects/NewsPortal/venv/lib/python3.11/site-packages/django/template/response.py", line 90, in rendered_content
+    template = self.resolve_template(self.template_name)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/maksim/PycharmProjects/NewsPortal/venv/lib/python3.11/site-packages/django/template/response.py", line 72, in resolve_template
+    return select_template(template, using=self.using)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/maksim/PycharmProjects/NewsPortal/venv/lib/python3.11/site-packages/django/template/loader.py", line 47, in select_template
+    raise TemplateDoesNotExist(", ".join(template_name_list), chain=chain)
+django.template.exceptions.TemplateDoesNotExist: ___news_edit.html
+2022-12-11 20:31:48,049 ERROR basehttp "GET /news/65/edit/ HTTP/1.1" 500 91530
+2022-12-11 20:33:46,952 INFO autoreload /home/maksim/PycharmProjects/NewsPortal/newsportal/newsportal/settings.py changed, reloading.
+2022-12-11 20:33:47,801 INFO autoreload Watching for file changes with StatReloader
+2022-12-11 20:34:00,726 INFO autoreload /home/maksim/PycharmProjects/NewsPortal/newsportal/app1/views.py changed, reloading.
+2022-12-11 20:34:01,535 INFO autoreload Watching for file changes with StatReloader
+2022-12-11 20:34:06,080 INFO basehttp "GET /news/65/edit/ HTTP/1.1" 200 4448

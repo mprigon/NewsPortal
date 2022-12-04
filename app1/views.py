@@ -1,5 +1,8 @@
 # Импортируем класс, который говорит нам о том,
 # что в этом представлении мы будем выводить список объектов из БД
+import logging
+
+
 from django.core.cache import cache
 from django.core.mail import send_mail
 from django.urls import reverse_lazy
@@ -74,6 +77,9 @@ class PostDetail(DetailView):
     template_name = 'news_id.html'
     # Название объекта, в котором будет выбранная пользователем публикация
     context_object_name = 'news_id'  # используем в news_delete.html, article_delete.html
+
+    logger = logging.getLogger(__name__)
+    logger.error('hello from logger.error in PostDetail')
 
     # добавляем кэширование страниц по отдельной публикации
     # напоминание про pk и id

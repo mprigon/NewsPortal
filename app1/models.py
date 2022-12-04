@@ -63,6 +63,7 @@ class Post(models.Model):
     time = models.DateTimeField(auto_now_add=True)
     rating = models.SmallIntegerField(default=0)
 
+
     def like(self):
         self.rating += 1
         self.save()
