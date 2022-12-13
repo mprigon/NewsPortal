@@ -61,3 +61,24 @@ Traceback (most recent call last):
     raise TemplateDoesNotExist(", ".join(template_name_list), chain=chain)
 django.template.exceptions.TemplateDoesNotExist: ___news_edit.html
 2022-12-11 20:31:48,049 ERROR "GET /news/65/edit/ HTTP/1.1" 500 91530 /home/maksim/PycharmProjects/NewsPortal/venv/lib/python3.11/site-packages/django/core/servers/basehttp.py None
+2022-12-13 19:48:13,610 ERROR Internal Server Error: /news/58/edit/ /home/maksim/PycharmProjects/NewsPortal/venv/lib/python3.11/site-packages/django/utils/log.py (<class 'django.template.exceptions.TemplateDoesNotExist'>, TemplateDoesNotExist('__news_edit.html'), <traceback object at 0x7f45c6e19f40>)
+Traceback (most recent call last):
+  File "/home/maksim/PycharmProjects/NewsPortal/venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/maksim/PycharmProjects/NewsPortal/venv/lib/python3.11/site-packages/django/core/handlers/base.py", line 220, in _get_response
+    response = response.render()
+               ^^^^^^^^^^^^^^^^^
+  File "/home/maksim/PycharmProjects/NewsPortal/venv/lib/python3.11/site-packages/django/template/response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/maksim/PycharmProjects/NewsPortal/venv/lib/python3.11/site-packages/django/template/response.py", line 90, in rendered_content
+    template = self.resolve_template(self.template_name)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/maksim/PycharmProjects/NewsPortal/venv/lib/python3.11/site-packages/django/template/response.py", line 72, in resolve_template
+    return select_template(template, using=self.using)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/maksim/PycharmProjects/NewsPortal/venv/lib/python3.11/site-packages/django/template/loader.py", line 47, in select_template
+    raise TemplateDoesNotExist(", ".join(template_name_list), chain=chain)
+django.template.exceptions.TemplateDoesNotExist: __news_edit.html
+2022-12-13 19:48:13,612 ERROR "GET /news/58/edit/ HTTP/1.1" 500 91629 /home/maksim/PycharmProjects/NewsPortal/venv/lib/python3.11/site-packages/django/core/servers/basehttp.py None

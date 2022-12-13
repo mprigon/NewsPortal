@@ -29,7 +29,10 @@ SECRET_KEY = 'django-insecure-ey4m126o5#e%+pt@pa(b+l$+i(oz&$=a9ji)k(rgy24p^2d4_y
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = []  # D13.4 если DEBUG = True
+# при DEBUG = False заменить на:
+# ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '[::1]']  # добавлено из документации
+# если оставлять список пустым, то все равно сравнивается с этими элементами
 
 # Application definition
 
@@ -166,6 +169,7 @@ EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_USE_SSL = 'True'
 
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
+SERVER_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')  # это адрес для сообщений error D13.4
 
 APSCHEDULER_DATETIME_FORMAT = 'N j, Y, f:s a'
 APSCHEDULER_RUN_NOW_TIMEOUT = 25
@@ -237,6 +241,9 @@ LOGGING = {
         'require_debug_true': {
             '()': 'django.utils.log.RequireDebugTrue',
         },
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
     },
 
     'handlers': {
@@ -266,7 +273,7 @@ LOGGING = {
             'class': 'logging.FileHandler',
             'filename': 'logs/general.log',
             'formatter': 'format_for_general_log',
-            'filters': ['require_debug_true'],
+            'filters': ['require_debug_false'],  # в файл general.log направляются, когда False
         },
 
         'file_errors': {
@@ -289,7 +296,7 @@ LOGGING = {
             'level': 'ERROR',
             'class': 'django.utils.log.AdminEmailHandler',
             'formatter': 'format_for_mail_admins',
-            'filters': ['require_debug_true'],
+            'filters': ['require_debug_false'],  # письма направляются, когда False
         },
     },
 
@@ -328,4 +335,4 @@ LOGGING = {
     },
 }
 
-ADMINS = [(os.getenv('ADMIN_NAME'), os.getenv("ADMIN_EMAIL")),]
+ADMINS = [(os.getenv('ADMIN_NAME'), os.getenv("ADMIN_EMAIL")), ]
