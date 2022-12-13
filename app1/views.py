@@ -126,7 +126,7 @@ class NewsEdit(PermissionRequiredMixin, UpdateView):
     raise_exception = True
     form_class = NewsForm
     model = Post
-    template_name = '__news_edit.html'
+    template_name = 'news_edit.html'
 
 
 class NewsDelete(PermissionRequiredMixin, DeleteView):
